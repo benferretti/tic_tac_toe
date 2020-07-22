@@ -9,11 +9,8 @@ require_relative 'lib/application'
 require_relative 'lib/show'
 
 
-#lancement partie
-my_app = Application.new
-while my_app.statut == true
-	Game.new.perform
-end
+Game.new.perform
+
 
 		
 

@@ -7,12 +7,12 @@ class Game
     @board = Board.new
   end
 
-  def ask_name
+  def ask_name #méthode pour demander les noms et créer les 2 players avec les symboles O et X imposés
     puts "Nom du player 1 ?"
     print "> "
-    @players << Player.new(gets.chomp.to_s, "O")
+    @players << Player.new(gets.chomp.to_s, "O") 
 
-    puts "Nom du player 2 ?"
+    puts "Nom du player 2 ?" 
     print "> "
     @players << Player.new(gets.chomp.to_s, "X")
   end
@@ -21,7 +21,7 @@ class Game
     while @board.victory == false
     	@players.each do |i| 
     		if @board.victory == true
-				nil
+				play_again
 			else
       			@board.play_turn(i)
     		end
@@ -29,12 +29,23 @@ class Game
  	end
   end
 
- def perform
+ def perform 
     ask_name
     puts "Le nom du joueur 1 est #{@players[0].name} et son symbole est #{@players[0].symbol}"
     puts "Le nom du joueur 2 est #{@players[1].name} et son symbole est #{@players[1].symbol}"
     @board.show
     select_player
-    #ask_new_game
+  end
+
+  def play_again
+    if @board.victory == true 
+      puts "Appuie sur la touche o pour relancer une partie ou sur une autre touche pour quitter le jeu : "
+      response = gets.chomp.to_s
+      if response == "o" || response == "O"
+        Game.new.perform
+      else
+        exit
+      end
+    end
   end
 end
