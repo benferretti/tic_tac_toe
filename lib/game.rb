@@ -1,26 +1,40 @@
 class Game
-	attr_accessor :symbol
-	def initialize
-		#création des 2 joueurs
-		puts "Quel est ton nom player 1?"
-		@name = gets.chomp
-		player1 = Player.new(@name, "X")
-		puts "Quel est ton nom player 2?"
-		@name = gets.chomp
-		player2 = Player.new(@name, "O")
-		@players = [player1, player2]
-		#boardcase = BoardCase.new
-		@board = Board.new
-		@board.show
 
-		while @board.victory == false 
-			@players.each do |i|
-				if @board.victory == true
-					puts "Désolé #{i.name}, tu as perdu."
-				else
-					@board.play_turn(i)
-				end
-			end
-		end
-	end
+  attr_accessor :players, :board , :player
+
+  def initialize
+    @players = Array.new
+    @board = Board.new
+  end
+
+  def ask_name
+    puts "Nom du player 1 ?"
+    print "> "
+    @players << Player.new(gets.chomp.to_s, "O")
+
+    puts "Nom du player 2 ?"
+    print "> "
+    @players << Player.new(gets.chomp.to_s, "X")
+  end
+
+  def select_player
+    while @board.victory == false
+    	@players.each do |i| 
+    		if @board.victory == true
+				nil
+			else
+      			@board.play_turn(i)
+    		end
+ 		end
+ 	end
+  end
+
+ def perform
+    ask_name
+    puts "Le nom du joueur 1 est #{@players[0].name} et son symbole est #{@players[0].symbol}"
+    puts "Le nom du joueur 2 est #{@players[1].name} et son symbole est #{@players[1].symbol}"
+    @board.show
+    select_player
+    #ask_new_game
+  end
 end

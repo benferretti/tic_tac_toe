@@ -49,8 +49,10 @@ class Board
 		end
 		show
 		victory?
-		if victory == true
+		if victory == true && @round != 9
 			puts "Bravo #{player.name}, tu as gagné."
+		elsif victory == true && @round == 9
+			puts "Match nul !"
 		end
 	end
 
