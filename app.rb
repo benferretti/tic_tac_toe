@@ -6,7 +6,6 @@ require_relative 'lib/player'
 require_relative 'lib/board'
 require_relative 'lib/boardcase'
 require_relative 'lib/application'
-require_relative 'lib/show'
 
 
 Game.new.perform

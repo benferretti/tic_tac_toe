@@ -20,22 +20,26 @@ class Board
 
 	def show #méthode qui affiche le board actualisé
 		puts""
-		puts "Voici le tableau :" 
-		puts""
-		puts "   1   2  3"
-	    puts " a #{@A1.content} | #{@A2.content} | #{@A3.content}"
-	    puts "   ---------"
-	    puts " b #{@B1.content} | #{@B2.content} | #{@B3.content}"
-	    puts "   ---------"
-	    puts " c #{@C1.content} | #{@C2.content} | #{@C3.content}"
+		puts "    1   2  3".blue
+	    puts " a  ".blue + "#{@A1.content} | #{@A2.content} | #{@A3.content}"
+	    puts "   +--+---+--+"
+	    puts " b  ".blue + "#{@B1.content} | #{@B2.content} | #{@B3.content}"
+	    puts "   +--+---+--+"
+	    puts " c  ".blue + "#{@C1.content} | #{@C2.content} | #{@C3.content}"
 		puts""
 		puts""
 	end
 
 	def play_turn (player) #chaque tour on effectue cette méthode sur un player différent
-		
-		puts "A toi de jouer #{player.name}. Fait un choix : "
+		if player.symbol == "O"
+			player.name = player.name.green
+			@symbolcolor = player.symbol.green
+		else
+			player.name = player.name.red
+			@symbolcolor = player.symbol.red
+		end
 		@symbol = player.symbol
+		puts "A toi de jouer " + "#{player.name}" + ". Fait un choix : "
 		position = gets.chomp.to_s
 
 		while @positions.include?(position) == false #la position rentrée fait-elle partie de l'array @@positions ?
@@ -43,55 +47,55 @@ class Board
 			position = gets.chomp.to_s #si ce n'est pas le cas on redemande une position à l'user
 		end
 		@positions.delete(position) #on supprime la position rentrée de l'array pour ne plus pouvoir la jouer 
-		@round += 1 #on compte le nombre de tour pour stopper la partie à 9 et affiche match nul
+		
 		@cases.map do |i|
 			if i.position == position
-				i.content = @symbol
+				i.content = @symbolcolor
 			end
 		end
 		show
 		victory?
-		if victory == true && @round != 9
+		if @victory == true
 			puts "Bravo #{player.name}, tu as gagné."
-		elsif victory == true && @round == 9
-			puts "Match nul !"
+		elsif @positions.length == 0
+			puts "Match nul !".yellow
+			@victory = true
 		end
+
 	end
 
 	def victory? #on liste tous les scénarios possibles pour une victoire
-		if @A1.content == "O" && @A2.content == "O" && @A3.content == "O" 
+		if @A1.content == "O".green && @A2.content == "O".green && @A3.content == "O".green 
 			@victory = true
-		elsif @A1.content == "X" && @A2.content == "X" && @A3.content == "X"
+		elsif @A1.content == "X".red && @A2.content == "X".red && @A3.content == "X".red
 			@victory = true
-		elsif @B1.content == "O" && @B2.content == "O" && @B3.content == "O"
+		elsif @B1.content == "O".green && @B2.content == "O".green && @B3.content == "O".green
 			@victory = true
-		elsif @B1.content == "X" && @B2.content == "X" && @B3.content == "X"
+		elsif @B1.content == "X".red && @B2.content == "X".red && @B3.content == "X".red
 			@victory = true	
-		elsif @C1.content == "O" && @C2.content == "O" && @C3.content == "O"
+		elsif @C1.content == "O".green && @C2.content == "O".green && @C3.content == "O".green
 			@victory = true
-		elsif @C1.content == "X" && @C2.content == "X" && @C3.content == "X"
+		elsif @C1.content == "X".red && @C2.content == "X".red && @C3.content == "X".red
 			@victory = true
-		elsif @A1.content == "O" && @B1.content == "O" && @C1.content == "O" 
+		elsif @A1.content == "O".green && @B1.content == "O".green && @C1.content == "O".green 
 			@victory = true
-		elsif @A1.content == "X" && @B1.content == "X" && @C1.content == "X"
+		elsif @A1.content == "X".red && @B1.content == "X".red && @C1.content == "X".red
 			@victory = true
-		elsif @A2.content == "O" && @B2.content == "O" && @C2.content == "O"
+		elsif @A2.content == "O".green && @B2.content == "O".green && @C2.content == "O".green
 			@victory = true
-		elsif @A2.content == "X" && @B2.content == "X" && @C2.content == "X"
+		elsif @A2.content == "X".red && @B2.content == "X".red && @C2.content == "X".red
 			@victory = true	
-		elsif @A3.content == "O" && @B3.content == "O" && @C3.content == "O"
+		elsif @A3.content == "O".green && @B3.content == "O".green && @C3.content == "O".green
 			@victory = true
-		elsif @A3.content == "X" && @B3.content == "X" && @C3.content == "X"
+		elsif @A3.content == "X".red && @B3.content == "X".red && @C3.content == "X".red
 			@victory = true		
-		elsif @A1.content == "O" && @B2.content == "O" && @C3.content == "O" 
+		elsif @A1.content == "O".green && @B2.content == "O".green && @C3.content == "O".green 
 			@victory = true
-		elsif @A1.content == "X" && @B2.content == "X" && @C3.content == "X"
+		elsif @A1.content == "X".red && @B2.content == "X".red && @C3.content == "X".red
 			@victory = true
-		elsif @A3.content == "O" && @B2.content == "O" && @C1.content == "O"
+		elsif @A3.content == "O".green && @B2.content == "O".green && @C1.content == "O".green
 			@victory = true
-		elsif @A3.content == "X" && @B2.content == "X" && @C1.content == "X"
-			@victory = true	
-		elsif @round == 9
+		elsif @A3.content == "X".red && @B2.content == "X".red && @C1.content == "X".red
 			@victory = true		
 		end
 	end 
